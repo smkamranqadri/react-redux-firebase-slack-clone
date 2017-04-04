@@ -9,7 +9,7 @@ export const rootInitialState = {
   dashboard: dashboardInitialState
 };
 
-export default combineReducers({
+export let rootReducer = combineReducers({
   app: AppReducer,
   login: LoginReducer,
   dashboard: DashboardReducer,
