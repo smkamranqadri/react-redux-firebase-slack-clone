@@ -1,11 +1,17 @@
 import { combineReducers } from 'redux';
+import { routerReducer } from 'react-router-redux'
 
-import app, { appInitialState } from './containers/app/app.reducer';
+import { AppReducer, appInitialState, LoginReducer, loginInitialState, DashboardReducer, dashboardInitialState  } from './containers';
 
 export const rootInitialState = {
   app: appInitialState,
+  login: loginInitialState,
+  dashboard: dashboardInitialState
 };
 
 export default combineReducers({
-  app,
+  app: AppReducer,
+  login: LoginReducer,
+  dashboard: DashboardReducer,
+  routing: routerReducer
 });
