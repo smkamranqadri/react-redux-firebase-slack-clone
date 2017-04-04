@@ -6,6 +6,9 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import * as firebase from 'firebase';
 
 import 'bootstrap/dist/css/bootstrap.css';
+import 'font-awesome/css/font-awesome.css';
+import '../node_modules/adminlte-reactjs/public/dist/css/AdminLTE.min.css';
+import '../node_modules/adminlte-reactjs/public/dist/css/skins/_all-skins.min.css';
 
 import { store } from './store';
 import routes from './routes'
@@ -21,32 +24,20 @@ ReactDOM.render(
   document.getElementById('root')
 );
 
-
-let config = {
-  apiKey: "AIzaSyCsY-GX127EyEcyiKcJv9lUSIqezOJccB0",
-  authDomain: "slack-clone-7c87d.firebaseapp.com",
-  databaseURL: "https://slack-clone-7c87d.firebaseio.com",
-  projectId: "slack-clone-7c87d",
-  storageBucket: "slack-clone-7c87d.appspot.com",
-  messagingSenderId: "530145985829"
-};
-
-firebase.initializeApp(config);
-
-firebase.auth().onAuthStateChanged(function(auth) {
-  if (auth) {
-    let user = {
-      uid: auth.uid,
-      displayName: auth.displayName,
-      email: auth.email,
-      photoURL: auth.photoURL
-    };
-    store.dispatch({
-      type: 'LOGIN_SUCCESS',
-      payload: user
-    })
-  } else {
-    // User is signed out.
-    // ...
-  }
-});
+// firebase.auth().onAuthStateChanged(function(auth) {
+//   if (auth) {
+//     let user = {
+//       uid: auth.uid,
+//       displayName: auth.displayName,
+//       email: auth.email,
+//       photoURL: auth.photoURL
+//     };
+//     store.dispatch({
+//       type: 'LOGIN_SUCCESS',
+//       payload: user
+//     })
+//   } else {
+//     // User is signed out.
+//     // ...
+//   }
+// });

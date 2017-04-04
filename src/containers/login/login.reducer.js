@@ -4,7 +4,7 @@ import { LOGIN_WITH_GOOGLE, LOGIN_SUCCESS, LOGIN_FAIL, UPDATE_PROFILE_SUCCESS, U
 // Initial State
 export const loginInitialState = {
   isLoggedIn: false,
-  user: null
+  user: {}
 };
 
 export const LoginReducer = (state = loginInitialState, action) => {

@@ -7,3 +7,4 @@ export { LoginEpic } from './login/login.epic';
 
 export { Dashboard } from './dashboard/dashboard';
 export { DashboardReducer, dashboardInitialState } from './dashboard/dashboard.reducer';
+export { DashboardEpic } from './dashboard/dashboard.epic';

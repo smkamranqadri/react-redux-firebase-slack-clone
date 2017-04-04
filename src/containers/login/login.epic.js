@@ -1,6 +1,7 @@
 import * as firebase from 'firebase';
 import { push } from 'react-router-redux';
-import { Observable } from 'rxjs'
+import { Observable } from 'rxjs';
+import { getFirebase } from 'react-redux-firebase';
 
 import { LOGIN_WITH_GOOGLE, LOGIN_SUCCESS, LOGIN_FAIL, UPDATE_PROFILE_SUCCESS, UPDATE_PROFILE_FAIL } from './login.actions';
 
@@ -28,10 +29,28 @@ export class LoginEpic {
   static updateProfile = (action$) =>
     action$.ofType(LOGIN_SUCCESS)
       .switchMap(({ payload }) => {
-        firebase.database().ref('users/' + payload.uid).set(payload, function(err){
-          console.log('err', err)
-        });
-        return Observable.of(push('/'));
+        return Observable.concat(
+          getFirebase().set('users/' + payload.uid, payload)
+        )
+
+        // firebase.database().ref('users/' + payload.uid).set(payload, function(err){
+        //   console.log('err', err)
+        // });
+      }).mapTo(push('/'))
+
+  static checkLogin = (action$) =>
+    action$.ofType('@@reactReduxFirebase/LOGIN')
+      .switchMap(({ auth }) => {
+        let user = {
+          uid: auth.uid,
+          displayName: auth.displayName,
+          email: auth.email,
+          photoURL: auth.photoURL
+        };
+        return Observable.of({
+          type: LOGIN_SUCCESS,
+          payload: user
+        })
       })
 
 }

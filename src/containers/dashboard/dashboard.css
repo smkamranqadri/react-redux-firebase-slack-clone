@@ -1,0 +1,47 @@
+.sidenav {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100vh;
+  padding: 10px;
+  padding-left: 25px;
+  background-color: #002B36;
+  color: white;
+}
+
+.title {
+  padding: 20px;
+  font-size: 1.5em;
+}
+
+.panel-body {
+  color: black;
+}
+
+.panel-footer {
+  color: black;
+}
+
+.addButton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nopadding {
+  padding: 0px;
+}
+
+.direct-chat {
+  height: calc(100vh - 20px);
+  display: flex;
+  flex-direction: column;
+}
+
+.direct-chat .box-body {
+  flex-grow: 1;
+}
+
+.chatbox > div {
+  padding: 0px;
+}

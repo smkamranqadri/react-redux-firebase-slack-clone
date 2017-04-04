@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { routerReducer } from 'react-router-redux'
+import { firebaseStateReducer } from 'react-redux-firebase'
 
 import { AppReducer, appInitialState, LoginReducer, loginInitialState, DashboardReducer, dashboardInitialState  } from './containers';
 
@@ -13,5 +14,6 @@ export let rootReducer = combineReducers({
   app: AppReducer,
   login: LoginReducer,
   dashboard: DashboardReducer,
-  routing: routerReducer
+  routing: routerReducer,
+  firebase: firebaseStateReducer
 });
