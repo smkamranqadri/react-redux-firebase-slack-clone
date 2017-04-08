@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { firebaseConnect, dataToJS, isLoaded, isEmpty } from 'react-redux-firebase';
 import { bindActionCreators } from 'redux';
 import { Panel } from 'react-bootstrap';
-import Truncate from 'react-truncate';
 
 const reactjsAdminlte = require('adminlte-reactjs')
 const ChatBox = reactjsAdminlte.ChatBox;
@@ -37,6 +36,14 @@ export class DashboardContainer extends Component {
   addChannel = (e) => {
     this.props.addChannel(e.channelName);
   };
+
+  truncate(string) {
+    if (string && string.length > 15) {
+      return string.substr(0, 15) + '...';
+    } else {
+      return string
+    }
+  }
 
   render() {
     var conversationsInfo = [{
@@ -80,20 +87,30 @@ export class DashboardContainer extends Component {
               <p key={id} onClick={() => this.props.activateChannel(key)}>{key}</p>
             )
           )
+    const userList = !isLoaded(this.props.users)
+      ? 'Loading'
+      : isEmpty(this.props.users)
+        ? 'Channel list is empty'
+        : Object.keys(this.props.users).map(
+          (key, id) => (
+            this.props.user.email === this.props.users[key].email
+              ? <p key={id} onClick={() => this.props.activateChannel(this.props.users[key].email)}>{this.props.users[key].email} <b>(you)</b></p>
+              : <p key={id} onClick={() => this.props.activateChannel(this.props.users[key].email)}>{this.props.users[key].email}</p>
+            )
+          )
     return (
       <div className="row">
         <AddChannelModal show={this.state.showAddChannel} onAdd={this.addChannel} close={this.closeChannel} />
         <div className="col-sm-3 sidenav">
           <div className="title">
-            <Truncate lines={1} ellipsis={'...'}>
-                {this.props.user.displayName}
-            </Truncate>
+            <img src={this.props.user.photoURL} alt="User Image"/>
+            <small>{this.props.user.displayName}</small>
           </div>
           <Panel header={addButton('CHANNELS', () => this.newChannel())} bsStyle="info">
-              {channelList}
+            {channelList}
           </Panel>
           <Panel header={'DIRECT MESSAGE'} bsStyle="info">
-              {this.props.activeChannel}
+            {userList}
           </Panel>
         </div>
         <div className="col-sm-9 nopadding chatbox">
@@ -126,6 +143,7 @@ const mapStateToProps = (state, firebase) => {
       user: getUser(state),
       activeChannel: getActiveChannel(state),
       channels: dataToJS(state.firebase, 'channels'),
+      users: dataToJS(state.firebase, 'users'),
     };
 };
 
@@ -134,7 +152,8 @@ const mapDispatchToProps = (dispatch) => {
 };
 
 const wrappedDashboardContainer = firebaseConnect([
-  '/channels'
+  '/channels',
+  '/users'
 ])(DashboardContainer)
 
 export let Dashboard = connect(

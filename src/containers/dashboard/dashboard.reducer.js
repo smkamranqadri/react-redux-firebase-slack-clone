@@ -9,7 +9,7 @@ export const dashboardInitialState = {
 export const DashboardReducer = (state = dashboardInitialState, action) => {
   switch (action.type) {
     case ACTIVATE_CHANNEL:
-      return Object.assign(state, { activeChannel: action.payload })
+      return Object.assign({}, state, { activeChannel: action.payload })
     default: return state;
   }
 };

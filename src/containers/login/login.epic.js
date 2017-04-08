@@ -32,10 +32,6 @@ export class LoginEpic {
         return Observable.concat(
           getFirebase().set('users/' + payload.uid, payload)
         )
-
-        // firebase.database().ref('users/' + payload.uid).set(payload, function(err){
-        //   console.log('err', err)
-        // });
       }).mapTo(push('/'))
 
   static checkLogin = (action$) =>

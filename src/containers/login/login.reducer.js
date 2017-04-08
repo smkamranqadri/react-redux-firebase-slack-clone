@@ -10,7 +10,7 @@ export const loginInitialState = {
 export const LoginReducer = (state = loginInitialState, action) => {
   switch (action.type) {
     case LOGIN_SUCCESS:
-      return Object.assign(state, { isLoggedIn: true, user: action.payload });
+      return Object.assign({}, state, { isLoggedIn: true, user: action.payload });
     default:
       return state;
   }

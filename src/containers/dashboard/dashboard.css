@@ -5,13 +5,23 @@
   height: 100vh;
   padding: 10px;
   padding-left: 25px;
-  background-color: #002B36;
+  background-color: #006883;
   color: white;
 }
 
 .title {
   padding: 20px;
   font-size: 1.5em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.title img {
+  margin-right: 20px;
+  width: 80px;
+  border-radius: 50%;
 }
 
 .panel-body {
@@ -45,4 +55,19 @@
 .chatbox > div {
   padding: 0px;
   padding-right: 15px;
+}
+
+.panel-info {
+  border-color: #002B36;
+}
+
+.panel-heading {
+  background-color: #002B36 !important;
+  border-color: #002B36 !important;
+  color: white !important;
+}
+
+.modal-header {
+  background-color: #002B36;
+  color: white;
 }
