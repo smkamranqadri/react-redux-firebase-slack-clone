@@ -9,7 +9,7 @@ export class AddChannelModal extends Component {
     }
 
     addChannel = () => {
-        if (this.state.channelName == '') return this.setState({error: 'Channel Name is missing.'});
+        if (this.state.channelName === '') return this.setState({error: 'Channel Name is missing.'});
         this.props.onAdd({
             channelName: this.state.channelName
         });

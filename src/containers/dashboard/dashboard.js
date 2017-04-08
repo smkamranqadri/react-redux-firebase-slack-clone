@@ -20,8 +20,11 @@ export class DashboardContainer extends Component {
   constructor(props) {
       super(props);
       this.state = { showAddChannel: false };
-    console.log('-----------------------', this.props.channels)
   };
+
+  componentWillReceiveProps(nextProps) {
+    console.log('nextprops', nextProps);
+  }
 
   newChannel() {
       this.setState({ showAddChannel: true });
@@ -35,9 +38,6 @@ export class DashboardContainer extends Component {
     this.props.addChannel(e.channelName);
   };
 
-  componentWillUpdate(){
-    console.log('mmmmmmmmmmmm',this.props.activeChannel)
-  }
   render() {
     var conversationsInfo = [{
         name: 'Alexander Pierce',
@@ -77,9 +77,7 @@ export class DashboardContainer extends Component {
         ? 'Channel list is empty'
         : Object.keys(this.props.channels).map(
           (key, id) => (
-              <div>
-                <span onClick={() => this.props.activateChannel(key)}>{key}</span>
-              </div>
+              <p key={id} onClick={() => this.props.activateChannel(key)}>{key}</p>
             )
           )
     return (
@@ -124,7 +122,6 @@ let getUser = state => state.login.user;
 let getActiveChannel = state => state.dashboard.activeChannel;
 
 const mapStateToProps = (state, firebase) => {
-  console.log('///////////////////////', state)
     return {
       user: getUser(state),
       activeChannel: getActiveChannel(state),

@@ -1,5 +1,5 @@
 // Import Actions
-import { LOGIN_WITH_GOOGLE, LOGIN_SUCCESS, LOGIN_FAIL, UPDATE_PROFILE_SUCCESS, UPDATE_PROFILE_FAIL } from './login.actions';
+import { LOGIN_SUCCESS } from './login.actions';
 
 // Initial State
 export const loginInitialState = {

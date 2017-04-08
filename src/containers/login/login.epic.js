@@ -3,7 +3,7 @@ import { push } from 'react-router-redux';
 import { Observable } from 'rxjs';
 import { getFirebase } from 'react-redux-firebase';
 
-import { LOGIN_WITH_GOOGLE, LOGIN_SUCCESS, LOGIN_FAIL, UPDATE_PROFILE_SUCCESS, UPDATE_PROFILE_FAIL } from './login.actions';
+import { LOGIN_WITH_GOOGLE, LOGIN_SUCCESS, LOGIN_FAIL } from './login.actions';
 
 export class LoginEpic {
 

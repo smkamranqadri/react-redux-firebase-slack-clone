@@ -1,6 +1,3 @@
-import * as firebase from 'firebase';
-import { push } from 'react-router-redux';
-import { Observable } from 'rxjs'
 import { getFirebase } from 'react-redux-firebase'
 
 import { store } from '../../store';
