@@ -52,9 +52,17 @@
   flex-grow: 1;
 }
 
+.direct-chat-messages {
+  height: 100%;
+}
+
 .chatbox > div {
   padding: 0px;
   padding-right: 15px;
+}
+
+.box-tools {
+  display: none;
 }
 
 .panel-info {

@@ -12,17 +12,13 @@ const Contacts = reactjsAdminlte.Contacts;
 import './dashboard.css';
 
 import { AddChannelModal } from '../addChannel/addChannel';
-import { addChannel, activateChannel } from './dashboard.actions';
+import { addChannel, activateChannel, sendMessage } from './dashboard.actions';
 
 export class DashboardContainer extends Component {
 
   constructor(props) {
       super(props);
       this.state = { showAddChannel: false };
-  };
-
-  componentWillReceiveProps(nextProps) {
-    console.log('nextprops', nextProps);
   }
 
   newChannel() {
@@ -46,32 +42,6 @@ export class DashboardContainer extends Component {
   }
 
   render() {
-    var conversationsInfo = [{
-        name: 'Alexander Pierce',
-        displayPicture: '../dist/img/user1-128x128.jpg',
-        date: '23 Jan 2:00 pm',
-        message: "Is this template really for free? That's unbelievable!"
-    }, {
-        align: 'right',
-        name: 'Sarah Bullock',
-        displayPicture: '../dist/img/user3-128x128.jpg',
-        date: '23 Jan 2:05 pm',
-        message: 'You better believe it!'
-    }];
-
-    var contactsInfo = [{
-        name: 'Count Dracula',
-        displayPicture: '../dist/img/user1-128x128.jpg',
-        link: '#',
-        date: '2/28/2015',
-        message: 'How have you been? I was...'
-    }, {
-        name: 'Count Dracula',
-        displayPicture: '../dist/img/user1-128x128.jpg',
-        link: '#',
-        date: '2/28/2015',
-        message: 'How have you been? I was...'
-    }];
     const addButton = function(title, addButtonHandler) {
       return (<div className="addButton">
         <span>{title}</span>
@@ -84,9 +54,19 @@ export class DashboardContainer extends Component {
         ? 'Channel list is empty'
         : Object.keys(this.props.channels).map(
           (key, id) => (
-              <p key={id} onClick={() => this.props.activateChannel(key)}>{key}</p>
+              <p key={id} onClick={() => this.props.activateChannel({ channelName: key, owner: this.props.channels[key].owner })}>{key}</p>
             )
           )
+    const getUserChannel = (user) => {
+      let me = this.props.user;
+      let user1 = user.uid
+      let user2 = me.uid
+      return {
+        channelName: user1 < user2 ? user1 + '_' + user2 : user2 + '_' + user1,
+        owner: user1 < user2 ? user.uid : me.uid,
+        user: user.email
+      }
+    }
     const userList = !isLoaded(this.props.users)
       ? 'Loading'
       : isEmpty(this.props.users)
@@ -94,10 +74,11 @@ export class DashboardContainer extends Component {
         : Object.keys(this.props.users).map(
           (key, id) => (
             this.props.user.email === this.props.users[key].email
-              ? <p key={id} onClick={() => this.props.activateChannel(this.props.users[key].email)}>{this.props.users[key].email} <b>(you)</b></p>
-              : <p key={id} onClick={() => this.props.activateChannel(this.props.users[key].email)}>{this.props.users[key].email}</p>
+              ? <p key={id} onClick={() => this.props.activateChannel(getUserChannel(this.props.users[key]))}>{this.props.users[key].email} <b>(you)</b></p>
+              : <p key={id} onClick={() => this.props.activateChannel(getUserChannel(this.props.users[key]))}>{this.props.users[key].email}</p>
             )
           )
+
     return (
       <div className="row">
         <AddChannelModal show={this.state.showAddChannel} onAdd={this.addChannel} close={this.closeChannel} />
@@ -114,9 +95,8 @@ export class DashboardContainer extends Component {
           </Panel>
         </div>
         <div className="col-sm-9 nopadding chatbox">
-          <ChatBox className="nopadding" width='12' buttonTheme='btn-primary' chatTheme='direct-chat-primary' headerTheme='box-primary' notificationTheme='bg-light-blue' title={this.props.activeChannel} notifications='2' sendMessage={this.sendMessage} >
-            <Conversations conversations={conversationsInfo} />
-            <Contacts contacts={contactsInfo} />
+          <ChatBox className="nopadding" width='12' buttonTheme='btn-primary' chatTheme='direct-chat-primary' headerTheme='box-primary' notificationTheme='bg-light-blue' title={this.props.activeChannel.user ||this.props.activeChannel.channelName} notifications='2' sendMessage={this.props.sendMessage} >
+            <Conversations conversations={this.props.activeConversations} />
           </ChatBox>
         </div>
       </div>
@@ -126,7 +106,7 @@ export class DashboardContainer extends Component {
 
 DashboardContainer.propTypes = {
   user: PropTypes.object.isRequired,
-  activeChannel: PropTypes.string.isRequired,
+  activeChannel: PropTypes.object.isRequired,
   addChannel: PropTypes.func.isRequired,
   activateChannel: PropTypes.func.isRequired
 };
@@ -137,18 +117,20 @@ DashboardContainer.contextTypes = {
 
 let getUser = state => state.login.user;
 let getActiveChannel = state => state.dashboard.activeChannel;
+let getActiveConversations = state => state.dashboard.activeConversations;
 
 const mapStateToProps = (state, firebase) => {
     return {
       user: getUser(state),
       activeChannel: getActiveChannel(state),
+      activeConversations: getActiveConversations(state),
       channels: dataToJS(state.firebase, 'channels'),
       users: dataToJS(state.firebase, 'users'),
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return bindActionCreators({ addChannel, activateChannel }, dispatch)
+    return bindActionCreators({ addChannel, activateChannel, sendMessage }, dispatch)
 };
 
 const wrappedDashboardContainer = firebaseConnect([
